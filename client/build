@@ -8,7 +8,7 @@ function mktmpfile() {
   mktemp 2>/dev/null || mktemp -t 'hbuild'
 }
 
-tar c --exclude .build/app --exclude .git . | docker run -v /var/heroku/build:/var/heroku/build -i -a stdin -a stdout heroku-nodejs-builder /buildpack/bin/pipe-compile | {
+tar c --exclude .build/app --exclude .git . | docker run -i heroku-nodejs-builder /buildpack/bin/pipe-compile | {
   while read line; do
     if [ "$line" = "@begin_tar" ]; then
       tarball=$(mktmpfile)
