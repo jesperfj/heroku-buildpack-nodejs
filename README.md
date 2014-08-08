@@ -1,3 +1,29 @@
+Heroku Buildpack for Node.js Extended for Docker
+================================================
+
+This fork of the Heroku Node.js buildpack makes no modifications to the buildpack itself. Instead, it adds a couple of files which will let you run build Heroku deployment ready Node.js applications in a local Docker container. The following files do the trick:
+
+## Dockerfile
+
+Used to build the container. Build it with:
+
+    $ docker build --rm -t heroku-nodejs-builder .
+
+## bin/pipe-compile
+
+A wrapper to bin/compile that expects the app directory to be streamed into stdin as a tarball. Once received it will save to disk in the docker container and run `bin/compile`. Finally it streams the resulting app and cache directories back onto stdout as tarballs.
+
+## client/build
+
+This is the script you run locally to execute a build. Download it from the container with:
+
+    $ docker run heroku-nodejs-builder cat /buildpack/client/build > $HOME/bin/build
+    $ chmod +x $HOME/bin/build
+
+Original README from forked repo starts below the line.
+
+----
+
 Heroku Buildpack for Node.js
 ============================
 
