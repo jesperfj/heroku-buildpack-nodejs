@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+# make it work on both mac and unix
+function mktmpdir() {
+  mktemp -d 2>/dev/null || mktemp -d -t 'hbuild'
+}
+
+#env_dir=$(mktmpdir)
+tmp_dir=$(mktmpdir)
+mkdir $tmp_dir/app
+
+tar x --warning=no-unknown-keyword --warning=no-timestamp -C $tmp_dir/app
+
+if [ -e $tmp_dir/app/.build/cache ]; then
+  mv $tmp_dir/app/.build/cache $tmp_dir/cache
+else
+  mkdir $tmp_dir/cache
+fi
+
+rm -rf $tmp_dir/app/.build
+
+$(dirname $0)/compile $tmp_dir/app $tmp_dir/cache
+
+echo "@begin_tar"
+
+tar c -C $tmp_dir .
