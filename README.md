@@ -7,7 +7,7 @@ This fork of the Heroku Node.js buildpack makes no modifications to the buildpac
 
 Used to build the container. Build it with:
 
-    $ docker build --rm -t heroku-nodejs-builder .
+    $ docker build --rm -t yourname/heroku-nodejs-builder:latest .
 
 ## bin/pipe-compile
 
@@ -17,7 +17,7 @@ A wrapper to bin/compile that expects the app directory to be streamed into stdi
 
 This is the script you run locally to execute a build. Download it from the container with:
 
-    $ docker run heroku-nodejs-builder cat /buildpack/client/build > $HOME/bin/build
+    $ docker run jesperfj/heroku-nodejs-builder:latest cat /buildpack/client/build > $HOME/bin/build
     $ chmod +x $HOME/bin/build
 
 Original README from forked repo starts below the line.
